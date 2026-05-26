@@ -1,134 +1,105 @@
-import os
-from datetime import datetime
 from typing import List
 from fastapi import Depends, FastAPI, HTTPException
-from pydantic import BaseModel
-from sqlalchemy import (TIMESTAMP, Boolean, Column, Integer, Numeric, String,
-                        create_engine)
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import Session, sessionmaker
+from sqlalchemy.orm import Session
 
-# NUEVO: Importar cargador de variables de entorno
-from dotenv import load_dotenv
+# Importaciones locales de los otros archivos que acabamos de crear
+from database import get_db
+from models import BubbleTeaDB, UserDB
+from schemas import BubbleTeaCreate, BubbleTeaResponse, UserResponse
+from utils import filter_out_inactive_bubble_teas
 
-# Cargar las variables del archivo .env
-load_dotenv()
-
-# =========================================================================
-# 1. CONFIGURACIÓN DE LA BASE DE DATOS (Cargada desde .env)
-# =========================================================================
-# Intenta leer DATABASE_URL del .env; si no existe, usa una por defecto para evitar caídas.
-DATABASE_URL = os.getenv("DATABASE_URL")
-
-if not DATABASE_URL:
-    raise RuntimeError(
-        "ERROR: No se encontró la variable DATABASE_URL en el archivo .env"
-    )
-
-engine = create_engine(DATABASE_URL)
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-Base = declarative_base()
-
-
-# Dependencia para obtener la sesión de la base de datos en cada petición
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
-
-# =========================================================================
-# 2. MODELOS DE LAS TABLAS (SQLAlchemy ORM)
-# =========================================================================
-class UserDB(Base):
-    __tablename__ = "users"
-    id = Column(Integer, primary_key=True, index=True)
-    name = Column(String(50), nullable=False)
-    surname = Column(String(50), nullable=False)
-    email = Column(String(100), unique=True, nullable=False)
-    created_at = Column(TIMESTAMP, default=datetime.utcnow)
-
-
-class BubbleTeaDB(Base):
-    __tablename__ = "bubble_teas"
-    id = Column(Integer, primary_key=True, index=True)
-    name = Column(String(100), nullable=False)
-    temperature = Column(String(20), nullable=False)
-    price = Column(Numeric(5, 2), nullable=False)
-    active = Column(Boolean, default=True)
-    created_at = Column(TIMESTAMP, default=datetime.utcnow)
-
-
-# =========================================================================
-# 3. ESQUEMAS DE VALIDACIÓN (Pydantic)
-# =========================================================================
-class BubbleTeaResponse(BaseModel):
-    id: int
-    name: str
-    temperature: str
-    price: float
-    active: bool
-
-    class Config:
-        from_attributes = True
-
-
-class UserResponse(BaseModel):
-    id: int
-    name: str
-    surname: str
-    email: str
-
-    class Config:
-        from_attributes = True
-
-
-# =========================================================================
-# 4. INSTANCIA DE FASTAPI Y ENDPOINTS
-# =========================================================================
 app = FastAPI(title="Bubble Tea & Users API")
-
 
 @app.get("/")
 def say_hello():
     return {"message": "Hello, World!"}
 
+# =========================================================================
+# ENDPOINTS PARA BUBBLE TEAS
+# =========================================================================
 
-# --- FUNCIONES AUXILIARES DE FILTRADO ---
-def filter_out_inactive_bubble_teas(db_teas: List[BubbleTeaDB]) -> List[BubbleTeaDB]:
-    return [tea for tea in db_teas if tea.active]
+# 1. POST: Crear un nuevo Bubble Tea en Aiven
+@app.post("/bubbleteas", response_model=BubbleTeaResponse, status_code=201)
+def create_bubble_tea(tea_data: BubbleTeaCreate, db: Session = Depends(get_db)):
+    nuevo_tea = BubbleTeaDB(
+        name=tea_data.name,
+        temperature=tea_data.temperature,
+        price=tea_data.price,
+        active=tea_data.active
+    )
+    db.add(nuevo_tea)
+    db.commit()
+    db.refresh(nuevo_tea)
+    return nuevo_tea
 
 
-# --- ENDPOINTS PARA BUBBLE TEAS ---
-
-
-# Obtener todos los Bubble Teas ACTIVOS
+# 2. GET Global: Obtener TODOS los Bubble Teas ACTIVOS de Aiven
 @app.get("/bubbleteas", response_model=List[BubbleTeaResponse])
 def get_bubble_teas(db: Session = Depends(get_db)):
     all_teas = db.query(BubbleTeaDB).all()
     return filter_out_inactive_bubble_teas(all_teas)
 
 
-# Hacer un Soft Delete (Desactivar un Bubble Tea)
+# 3. GET por ID: Obtener uno específico de Aiven (Verifica que esté ACTIVO)
+@app.get("/bubbleteas/{tea_id}", response_model=BubbleTeaResponse)
+def get_bubble_tea_by_id(tea_id: int, db: Session = Depends(get_db)):
+    tea = db.query(BubbleTeaDB).filter(BubbleTeaDB.id == tea_id).first()
+    
+    if not tea or not tea.active:
+        raise HTTPException(
+            status_code=404, 
+            detail="Bubble Tea no encontrado o no se encuentra activo"
+        )
+    return tea
+
+
+# 4. PUT: Actualizar un Bubble Tea en Aiven
+@app.put("/bubbleteas/{tea_id}", response_model=BubbleTeaResponse)
+def update_bubble_tea(tea_id: int, tea_data: BubbleTeaCreate, db: Session = Depends(get_db)):
+    tea = db.query(BubbleTeaDB).filter(BubbleTeaDB.id == tea_id).first()
+    if not tea:
+        raise HTTPException(status_code=404, detail="Bubble Tea no encontrado")
+    
+    tea.name = tea_data.name
+    tea.temperature = tea_data.temperature
+    tea.price = tea_data.price
+    tea.active = tea_data.active
+    
+    db.commit()
+    db.refresh(tea)
+    return tea
+
+
+# 5. DELETE (Soft): Desactivar un Bubble Tea en Aiven
 @app.delete("/bubbleteas/{tea_id}")
 def soft_delete_bubble_tea(tea_id: int, db: Session = Depends(get_db)):
     tea = db.query(BubbleTeaDB).filter(BubbleTeaDB.id == tea_id).first()
     if not tea:
         raise HTTPException(status_code=404, detail="Bubble Tea no encontrado")
 
-    tea.active = False  # Cambiamos el estado a 0
+    tea.active = False  
     db.commit()
     return {
-        "message": f"Bubble Tea con ID {tea_id} ha sido eliminado (Soft Delete)."
+        "message": f"Bubble Tea con ID {tea_id} ha sido deshabilitado (Soft Delete)."
     }
 
 
-# --- ENDPOINTS PARA USUARIOS ---
+# 6. DELETE (Hard): Eliminar por completo de Aiven
+@app.delete("/bubbleteas/{tea_id}/hard")
+def hard_delete_bubble_tea(tea_id: int, db: Session = Depends(get_db)):
+    tea = db.query(BubbleTeaDB).filter(BubbleTeaDB.id == tea_id).first()
+    if not tea:
+        raise HTTPException(status_code=404, detail="Bubble Tea no encontrado")
+    
+    db.delete(tea)
+    db.commit()
+    return {"message": f"Bubble Tea con ID {tea_id} ha sido eliminado permanentemente."}
 
 
-# Obtener todos los usuarios
+# =========================================================================
+# ENDPOINTS PARA USUARIOS
+# =========================================================================
+
 @app.get("/users", response_model=List[UserResponse])
 def get_users(db: Session = Depends(get_db)):
     users = db.query(UserDB).all()
