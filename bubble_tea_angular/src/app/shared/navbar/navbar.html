@@ -1,0 +1,24 @@
+<nav class="navbar">
+  <div class="navbar-brand" routerLink="/home">
+    <span class="material-icons">local_cafe</span>
+    <h1>Bubble Tea</h1>
+  </div>
+  
+  <div class="navbar-menu">
+    <a routerLink="/home" routerLinkActive="active" class="nav-item">Inicio</a>
+    
+    <ng-container *ngIf="user$ | async as user; else guest">
+      <div class="user-info">
+        <span class="material-icons">account_circle</span>
+        <span>{{ user.name }}</span>
+      </div>
+      <button class="btn-logout" (click)="logout()">
+        <span class="material-icons">logout</span> Salir
+      </button>
+    </ng-container>
+    
+    <ng-template #guest>
+      <a routerLink="/login" class="btn-login">Ingresar</a>
+    </ng-template>
+  </div>
+</nav>

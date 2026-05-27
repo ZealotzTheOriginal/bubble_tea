@@ -1,0 +1,59 @@
+@use "./styles/colors";
+@use "./styles/colors-opacity";
+@use "./styles/fonts";
+@import '@angular/material/prebuilt-themes/magenta-violet.css';
+
+* {
+  box-sizing: border-box;
+}
+
+h1, h2, h3, h4, h5, h6, p, a {
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-100);
+  color: var(--fg-200);
+  font-family: var(--font-inter);
+  overflow-x: hidden;
+  
+  /* Permite que la barra flote por encima del contenido en Chrome/Edge */
+  overflow-y: overlay; 
+}
+
+/* ==========================================================================
+   Custom Scrollbar (Estilo SimpleBar nativo)
+   ========================================================================== */
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(166, 251, 255, 0.4) transparent;
+}
+
+/* Chrome, Edge, Safari */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(166, 251, 255, 0.3);
+  border-radius: 10px;
+  transition: background 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(48, 247, 177, 0.6);
+}

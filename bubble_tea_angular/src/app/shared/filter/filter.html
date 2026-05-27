@@ -1,0 +1,38 @@
+<div class="filter-container">
+  <div class="search-box">
+    <span class="material-icons search-icon">search</span>
+    <input 
+      type="text" 
+      placeholder="Buscar bubble tea..." 
+      [(ngModel)]="filters.searchTerm" 
+      (ngModelChange)="onFilterChange()"
+      class="search-input"
+    >
+  </div>
+  
+  <div class="toggles-container">
+    <label class="toggle-label">
+      <input type="checkbox" [(ngModel)]="filters.isVegan" (ngModelChange)="onFilterChange()">
+      <span class="custom-toggle">
+        <span class="material-icons">eco</span>
+      </span>
+      <span>Vegano</span>
+    </label>
+    
+    <label class="toggle-label">
+      <input type="checkbox" [(ngModel)]="filters.isHot" (ngModelChange)="onFilterChange()">
+      <span class="custom-toggle">
+        <span class="material-icons">local_fire_department</span>
+      </span>
+      <span>Caliente</span>
+    </label>
+
+    <label class="toggle-label">
+      <input type="checkbox" [(ngModel)]="filters.hasCaffeine" (ngModelChange)="onFilterChange()">
+      <span class="custom-toggle">
+        <span class="material-icons">bolt</span>
+      </span>
+      <span>Con Cafeína</span>
+    </label>
+  </div>
+</div>

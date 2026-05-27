@@ -1,0 +1,88 @@
+<div class="home-container">
+  <div class="hero-section">
+    <h1>Descubre nuestro Bubble Tea</h1>
+    <p>Bienvenido <strong>{{ (user$ | async)?.name }}</strong></p>
+  </div>
+
+  <app-filter (filterChange)="onFilterChange($event)"></app-filter>
+
+  <div class="loading-state" *ngIf="isLoading()">
+    <span class="material-icons rotating">refresh</span>
+    <p>Cargando sabores increíbles...</p>
+  </div>
+
+  <div class="tea-grid" *ngIf="!isLoading()">
+    <app-bubble-tea-card 
+      *ngFor="let tea of filteredBubbleTeas()" 
+      [bubbleTea]="tea"
+      (cardClick)="onCardClick($event)">
+    </app-bubble-tea-card>
+    
+    <div class="no-results" *ngIf="filteredBubbleTeas().length === 0">
+      <span class="material-icons">sentiment_dissatisfied</span>
+      <p>No encontramos ningún bubble tea con esos filtros.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Detail View -->
+<div class="modal-overlay" *ngIf="selectedTea() as tea" (click)="closeModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <button class="close-btn" (click)="closeModal()">
+      <span class="material-icons">close</span>
+    </button>
+    
+    <div class="modal-image">
+      <img [src]="'/' + getModalImageId() + '.jpg'" alt="{{ tea.nombre }}">
+      <div class="stock-badge" [class.out-of-stock]="tea.activo === 0">
+        <span class="material-icons">{{ tea.activo === 1 ? 'check_circle' : 'cancel' }}</span>
+        <span>{{ tea.activo === 1 ? 'Disponible' : 'No disponible' }}</span>
+      </div>
+    </div>
+    
+    <div class="modal-body">
+      <h2>{{ tea.nombre }}</h2>
+      <span class="type-badge">{{ tea.tipo_bubbletea }}</span>
+      
+      <p class="description">{{ tea.descripcion || 'Una deliciosa bebida refrescante.' }}</p>
+      
+      <div class="features-list">
+        <div class="feature-item vegan" *ngIf="tea.es_vegano">
+          <span class="material-icons">eco</span> Vegano
+        </div>
+        <div class="feature-item hot" *ngIf="tea.disponible_caliente">
+          <span class="material-icons">local_fire_department</span> Caliente
+        </div>
+        <div class="feature-item caffeine" *ngIf="tea.tiene_cafeina">
+          <span class="material-icons">bolt</span> Con Cafeína
+        </div>
+      </div>
+      
+      <div class="allergens-box" *ngIf="tea.alergenos.length">
+        <span class="material-icons">warning</span>
+        <div class="allergen-info">
+          <strong>Contiene alérgenos:</strong>
+          <span>{{ tea.alergenos.join(', ') }}</span>
+        </div>
+      </div>
+      
+      <div class="modal-footer">
+        <div class="prices">
+          <div class="price-tag" *ngIf="tea.precio_M">
+            <span class="size">Mediano</span>
+            <span class="amount">{{ tea.precio_M }}€</span>
+          </div>
+          <div class="price-tag" *ngIf="tea.precio_L">
+            <span class="size">Largo</span>
+            <span class="amount">{{ tea.precio_L }}€</span>
+          </div>
+        </div>
+        
+        <button class="btn-order" [disabled]="tea.activo === 0">
+          <span class="material-icons">shopping_cart</span>
+          Añadir al carrito
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,113 @@
+.filter-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  background: rgba(33, 19, 36, 0.7);
+  backdrop-filter: blur(8px);
+  border-radius: 16px;
+  border: 1px solid rgba(166, 251, 255, 0.1);
+  margin-bottom: 2rem;
+
+  .search-box {
+    display: flex;
+    align-items: center;
+    background: var(--bg-100);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 24px;
+    padding: 0.5rem 1.5rem;
+    transition: border-color 0.3s ease;
+
+    &:focus-within {
+      border-color: var(--acc-100);
+    }
+
+    .search-icon {
+      color: var(--acc-200);
+      margin-right: 0.5rem;
+    }
+
+    .search-input {
+      flex-grow: 1;
+      background: transparent;
+      border: none;
+      color: var(--fg-100);
+      font-size: 1rem;
+      padding: 0.5rem 0;
+      font-family: inherit;
+
+      &:focus {
+        outline: none;
+      }
+
+      &::placeholder {
+        color: var(--fg-200);
+        opacity: 0.7;
+      }
+    }
+  }
+
+  .toggles-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+
+    .toggle-label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      color: var(--fg-200);
+      font-weight: 500;
+      user-select: none;
+      transition: color 0.3s ease;
+
+      input {
+        display: none;
+      }
+
+      .custom-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background-color: var(--bg-300);
+        color: var(--fg-200);
+        transition: all 0.3s ease;
+
+        .material-icons {
+          font-size: 1.25rem;
+        }
+      }
+
+      &:hover {
+        color: var(--fg-100);
+      }
+
+      input:checked + .custom-toggle {
+        background-color: var(--acc-100);
+        color: var(--bg-100);
+        box-shadow: 0 0 10px rgba(48, 247, 177, 0.4);
+      }
+
+      input:checked ~ span:last-child {
+        color: var(--acc-100);
+      }
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .filter-container {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    .search-box {
+      flex-grow: 1;
+      max-width: 400px;
+    }
+  }
+}

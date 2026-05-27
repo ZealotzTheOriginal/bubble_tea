@@ -1,0 +1,170 @@
+<div class="session-page">
+  <div class="session-overlay"></div>
+  
+  <!-- TOAST NOTIFICATION -->
+  <div class="toast" [class.show]="toastVisible()">
+    <span class="material-icons">error_outline</span>
+    <span class="toast-message">{{ toastMessage() }}</span>
+    <button class="close-toast" (click)="hideToast()">
+      <span class="material-icons">close</span>
+    </button>
+  </div>
+
+  <div class="session-card">
+    <!-- Brand -->
+    <div class="brand">
+      <span class="material-icons brand-icon">local_cafe</span>
+      <h1 class="brand-title">Bubble Tea</h1>
+      <p class="brand-subtitle">{{ isLogin() ? 'Bienvenido de vuelta' : 'Crea tu cuenta' }}</p>
+    </div>
+
+    <!-- Toggle Tabs -->
+    <div class="form-tabs">
+      <button
+        class="tab-btn"
+        [class.active]="isLogin()"
+        (click)="isLogin() ? null : toggleMode()"
+        type="button">
+        Iniciar Sesión
+      </button>
+      <button
+        class="tab-btn"
+        [class.active]="!isLogin()"
+        (click)="!isLogin() ? null : toggleMode()"
+        type="button">
+        Registrarse
+      </button>
+    </div>
+
+    <!-- LOGIN FORM -->
+    <form *ngIf="isLogin()" [formGroup]="loginForm" (ngSubmit)="onSubmit()" id="login-form" novalidate>
+      <div class="field-container">
+        <div class="field-group">
+          <label for="login-email">Correo electrónico</label>
+          <div class="input-wrapper">
+            <span class="material-icons field-icon">email</span>
+            <input
+              id="login-email"
+              type="email"
+              formControlName="email"
+              placeholder="tu@correo.com"
+              autocomplete="email"
+              [class.invalid]="loginForm.get('email')!.invalid && loginForm.get('email')!.touched" />
+          </div>
+          <span class="field-error" [class.visible]="loginForm.get('email')!.invalid && loginForm.get('email')!.touched">
+            Ingresa un correo válido.
+          </span>
+        </div>
+
+        <div class="field-group">
+          <label for="login-password">Contraseña</label>
+          <div class="input-wrapper">
+            <span class="material-icons field-icon">lock</span>
+            <input
+              id="login-password"
+              type="password"
+              formControlName="password"
+              placeholder="••••••••"
+              autocomplete="current-password"
+              [class.invalid]="loginForm.get('password')!.invalid && loginForm.get('password')!.touched" />
+          </div>
+          <span class="field-error" [class.visible]="loginForm.get('password')!.invalid && loginForm.get('password')!.touched">
+            Mínimo 6 caracteres.
+          </span>
+        </div>
+      </div>
+
+      <button type="submit" class="submit-btn" [disabled]="isLoading()">
+        <span class="spinner" *ngIf="isLoading()"></span> 
+        <span>{{ isLoading() ? 'Iniciando...' : 'Entrar' }}</span>
+        <span class="material-icons" *ngIf="!isLoading()">arrow_forward</span>
+      </button>
+    </form>
+
+    <!-- REGISTER FORM -->
+    <form *ngIf="!isLogin()" [formGroup]="registerForm" (ngSubmit)="onSubmit()" id="register-form" novalidate>
+      <div class="field-container">
+        <div class="field-group">
+          <label for="reg-name">Nombre completo</label>
+          <div class="input-wrapper">
+            <span class="material-icons field-icon">person</span>
+            <input
+              id="reg-name"
+              type="text"
+              formControlName="name"
+              placeholder="Juan García"
+              autocomplete="name"
+              [class.invalid]="registerForm.get('name')!.invalid && registerForm.get('name')!.touched" />
+          </div>
+          <span class="field-error" [class.visible]="registerForm.get('name')!.invalid && registerForm.get('name')!.touched">
+            Mínimo 2 caracteres.
+          </span>
+        </div>
+
+        <div class="field-group">
+          <label for="reg-email">Correo electrónico</label>
+          <div class="input-wrapper">
+            <span class="material-icons field-icon">email</span>
+            <input
+              id="reg-email"
+              type="email"
+              formControlName="email"
+              placeholder="tu@correo.com"
+              autocomplete="email"
+              [class.invalid]="registerForm.get('email')!.invalid && registerForm.get('email')!.touched" />
+          </div>
+          <span class="field-error" [class.visible]="registerForm.get('email')!.invalid && registerForm.get('email')!.touched">
+            Ingresa un correo válido.
+          </span>
+        </div>
+
+        <div class="field-group">
+          <label for="reg-password">Contraseña</label>
+          <div class="input-wrapper">
+            <span class="material-icons field-icon">lock</span>
+            <input
+              id="reg-password"
+              type="password"
+              formControlName="password"
+              placeholder="••••••••"
+              autocomplete="new-password"
+              [class.invalid]="registerForm.get('password')!.invalid && registerForm.get('password')!.touched" />
+          </div>
+          <span class="field-error" [class.visible]="registerForm.get('password')!.invalid && registerForm.get('password')!.touched">
+            Mínimo 6 caracteres.
+          </span>
+        </div>
+
+        <div class="field-group">
+          <label for="reg-confirm">Confirmar contraseña</label>
+          <div class="input-wrapper">
+            <span class="material-icons field-icon">lock_outline</span>
+            <input
+              id="reg-confirm"
+              type="password"
+              formControlName="confirmPassword"
+              placeholder="••••••••"
+              autocomplete="new-password"
+              [class.invalid]="(registerForm.get('confirmPassword')!.touched && registerForm.get('confirmPassword')!.invalid) || (registerForm.errors?.['passwordMismatch'] && registerForm.get('confirmPassword')!.touched)" />
+          </div>
+          <span class="field-error" [class.visible]="registerForm.errors?.['passwordMismatch'] && registerForm.get('confirmPassword')!.touched">
+            Las contraseñas no coinciden.
+          </span>
+        </div>
+      </div>
+
+      <button type="submit" class="submit-btn" [disabled]="isLoading()">
+        <span class="spinner" *ngIf="isLoading()"></span> 
+        <span>{{ isLoading() ? 'Creando...' : 'Crear cuenta' }}</span>
+        <span class="material-icons" *ngIf="!isLoading()">person_add</span>
+      </button>
+    </form>
+
+    <p class="toggle-hint">
+      {{ isLogin() ? '¿No tienes cuenta?' : '¿Ya tienes cuenta?' }}
+      <button class="link-btn" (click)="toggleMode()" type="button">
+        {{ isLogin() ? 'Regístrate' : 'Inicia sesión' }}
+      </button>
+    </p>
+  </div>
+</div>

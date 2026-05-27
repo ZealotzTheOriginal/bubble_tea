@@ -1,0 +1,45 @@
+<div class="tea-card" (click)="onCardClick()">
+  <div class="card-image">
+    <img [src]="'/' + imageId() + '.jpg'" alt="{{ bubbleTea.nombre }}">
+    <div class="stock-badge" [class.out-of-stock]="bubbleTea.activo === 0">
+      <span class="material-icons">{{ bubbleTea.activo === 1 ? 'check_circle' : 'cancel' }}</span>
+    </div>
+  </div>
+
+  <div class="card-content">
+    <!-- Burbuja del título -->
+    <div class="title-bubble">
+      <h3>{{ bubbleTea.nombre }}</h3>
+      <span class="type-badge">{{ bubbleTea.tipo_bubbletea }}</span>
+    </div>
+
+    <div class="features-badges">
+      <div class="feature-badge vegan" *ngIf="bubbleTea.es_vegano">
+        <span class="material-icons">eco</span>
+      </div>
+      <div class="feature-badge hot" *ngIf="bubbleTea.disponible_caliente">
+        <span class="material-icons">local_fire_department</span>
+      </div>
+      <div class="feature-badge caffeine" *ngIf="bubbleTea.tiene_cafeina">
+        <span class="material-icons">bolt</span>
+      </div>
+    </div>
+
+    <div class="card-footer">
+      <div class="prices">
+        <div class="price-tag" *ngIf="bubbleTea.precio_M">
+          <span class="size">Mediano</span>
+          <span class="amount">{{ bubbleTea.precio_M }}€</span>
+        </div>
+        <div class="price-tag" *ngIf="bubbleTea.precio_L">
+          <span class="size">Largo</span>
+          <span class="amount">{{ bubbleTea.precio_L }}€</span>
+        </div>
+      </div>
+      <button class="btn-order" [disabled]="bubbleTea.activo === 0" (click)="$event.stopPropagation()">
+        <span class="material-icons">shopping_cart</span>
+        Añadir
+      </button>
+    </div>
+  </div>
+</div>

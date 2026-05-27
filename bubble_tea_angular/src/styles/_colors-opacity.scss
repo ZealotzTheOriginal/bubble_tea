@@ -1,0 +1,104 @@
+:root {
+    
+    /* (Backgrounds Strenght) */
+    --bg-100-s-100: var(--bg-100);
+    --bg-100-s-90: color-mix(in srgb, var(--bg-100), transparent 10%);
+    --bg-100-s-80: color-mix(in srgb, var(--bg-100), transparent 20%);
+    --bg-100-s-70: color-mix(in srgb, var(--bg-100), transparent 30%);
+    --bg-100-s-60: color-mix(in srgb, var(--bg-100), transparent 40%);
+    --bg-100-s-50: color-mix(in srgb, var(--bg-100), transparent 50%);
+    --bg-100-s-40: color-mix(in srgb, var(--bg-100), transparent 60%);
+    --bg-100-s-30: color-mix(in srgb, var(--bg-100), transparent 70%);
+    --bg-100-s-20: color-mix(in srgb, var(--bg-100), transparent 80%);
+    --bg-100-s-10: color-mix(in srgb, var(--bg-100), transparent 90%);
+    
+    --bg-200-s-100: var(--bg-200);
+    --bg-200-s-90: color-mix(in srgb, var(--bg-200), transparent 10%);
+    --bg-200-s-80: color-mix(in srgb, var(--bg-200), transparent 20%);
+    --bg-200-s-70: color-mix(in srgb, var(--bg-200), transparent 30%);
+    --bg-200-s-60: color-mix(in srgb, var(--bg-200), transparent 40%);
+    --bg-200-s-50: color-mix(in srgb, var(--bg-200), transparent 50%);
+    --bg-200-s-40: color-mix(in srgb, var(--bg-200), transparent 60%);
+    --bg-200-s-30: color-mix(in srgb, var(--bg-200), transparent 70%);
+    --bg-200-s-20: color-mix(in srgb, var(--bg-200), transparent 80%);
+    --bg-200-s-10: color-mix(in srgb, var(--bg-200), transparent 90%);
+
+    --bg-300-s-100: var(--bg-300);
+    --bg-300-s-90: color-mix(in srgb, var(--bg-300), transparent 10%);
+    --bg-300-s-80: color-mix(in srgb, var(--bg-300), transparent 20%);
+    --bg-300-s-70: color-mix(in srgb, var(--bg-300), transparent 30%);
+    --bg-300-s-60: color-mix(in srgb, var(--bg-300), transparent 40%);
+    --bg-300-s-50: color-mix(in srgb, var(--bg-300), transparent 50%);
+    --bg-300-s-40: color-mix(in srgb, var(--bg-300), transparent 60%);
+    --bg-300-s-30: color-mix(in srgb, var(--bg-300), transparent 70%);
+    --bg-300-s-20: color-mix(in srgb, var(--bg-300), transparent 80%);
+    --bg-300-s-10: color-mix(in srgb, var(--bg-300), transparent 90%);
+
+    --bg-400-s-100: var(--bg-400);
+    --bg-400-s-90: color-mix(in srgb, var(--bg-400), transparent 10%);
+    --bg-400-s-80: color-mix(in srgb, var(--bg-400), transparent 20%);
+    --bg-400-s-70: color-mix(in srgb, var(--bg-400), transparent 30%);
+    --bg-400-s-60: color-mix(in srgb, var(--bg-400), transparent 40%);
+    --bg-400-s-50: color-mix(in srgb, var(--bg-400), transparent 50%);
+    --bg-400-s-40: color-mix(in srgb, var(--bg-400), transparent 60%);
+    --bg-400-s-30: color-mix(in srgb, var(--bg-400), transparent 70%);
+    --bg-400-s-20: color-mix(in srgb, var(--bg-400), transparent 80%);
+    --bg-400-s-10: color-mix(in srgb, var(--bg-400), transparent 90%);
+    
+    /* (Accents Strenght) */
+    --acc-100-s-100: var(--acc-100);
+    --acc-100-s-90: color-mix(in srgb, var(--acc-100), transparent 10%);
+    --acc-100-s-80: color-mix(in srgb, var(--acc-100), transparent 20%);
+    --acc-100-s-70: color-mix(in srgb, var(--acc-100), transparent 30%);
+    --acc-100-s-60: color-mix(in srgb, var(--acc-100), transparent 40%);
+    --acc-100-s-50: color-mix(in srgb, var(--acc-100), transparent 50%);
+    --acc-100-s-40: color-mix(in srgb, var(--acc-100), transparent 60%);
+    --acc-100-s-30: color-mix(in srgb, var(--acc-100), transparent 70%);
+    --acc-100-s-20: color-mix(in srgb, var(--acc-100), transparent 80%);
+    --acc-100-s-10: color-mix(in srgb, var(--acc-100), transparent 90%);
+
+    --acc-200-s-100: var(--acc-200);
+    --acc-200-s-90: color-mix(in srgb, var(--acc-200), transparent 10%);
+    --acc-200-s-80: color-mix(in srgb, var(--acc-200), transparent 20%);
+    --acc-200-s-70: color-mix(in srgb, var(--acc-200), transparent 30%);
+    --acc-200-s-60: color-mix(in srgb, var(--acc-200), transparent 40%);
+    --acc-200-s-50: color-mix(in srgb, var(--acc-200), transparent 50%);
+    --acc-200-s-40: color-mix(in srgb, var(--acc-200), transparent 60%);
+    --acc-200-s-30: color-mix(in srgb, var(--acc-200), transparent 70%);
+    --acc-200-s-20: color-mix(in srgb, var(--acc-200), transparent 80%);
+    --acc-200-s-10: color-mix(in srgb, var(--acc-200), transparent 90%);
+
+    --acc-300-s-100: var(--acc-300);
+    --acc-300-s-90: color-mix(in srgb, var(--acc-300), transparent 10%);
+    --acc-300-s-80: color-mix(in srgb, var(--acc-300), transparent 20%);
+    --acc-300-s-70: color-mix(in srgb, var(--acc-300), transparent 30%);
+    --acc-300-s-60: color-mix(in srgb, var(--acc-300), transparent 40%);
+    --acc-300-s-50: color-mix(in srgb, var(--acc-300), transparent 50%);
+    --acc-300-s-40: color-mix(in srgb, var(--acc-300), transparent 60%);
+    --acc-300-s-30: color-mix(in srgb, var(--acc-300), transparent 70%);
+    --acc-300-s-20: color-mix(in srgb, var(--acc-300), transparent 80%);
+    --acc-300-s-10: color-mix(in srgb, var(--acc-300), transparent 90%);
+
+    /* (Foregrounds Strenght) */
+    --fg-100-s-100: var(--fg-100);
+    --fg-100-s-90: color-mix(in srgb, var(--fg-100), transparent 10%);
+    --fg-100-s-80: color-mix(in srgb, var(--fg-100), transparent 20%);
+    --fg-100-s-70: color-mix(in srgb, var(--fg-100), transparent 30%);
+    --fg-100-s-60: color-mix(in srgb, var(--fg-100), transparent 40%);
+    --fg-100-s-50: color-mix(in srgb, var(--fg-100), transparent 50%);
+    --fg-100-s-40: color-mix(in srgb, var(--fg-100), transparent 60%);
+    --fg-100-s-30: color-mix(in srgb, var(--fg-100), transparent 70%);
+    --fg-100-s-20: color-mix(in srgb, var(--fg-100), transparent 80%);
+    --fg-100-s-10: color-mix(in srgb, var(--fg-100), transparent 90%);
+
+    --fg-200-s-100: var(--fg-200);
+    --fg-200-s-90: color-mix(in srgb, var(--fg-200), transparent 10%);
+    --fg-200-s-80: color-mix(in srgb, var(--fg-200), transparent 20%);
+    --fg-200-s-70: color-mix(in srgb, var(--fg-200), transparent 30%);
+    --fg-200-s-60: color-mix(in srgb, var(--fg-200), transparent 40%);
+    --fg-200-s-50: color-mix(in srgb, var(--fg-200), transparent 50%);
+    --fg-200-s-40: color-mix(in srgb, var(--fg-200), transparent 60%);
+    --fg-200-s-30: color-mix(in srgb, var(--fg-200), transparent 70%);
+    --fg-200-s-20: color-mix(in srgb, var(--fg-200), transparent 80%);
+    --fg-200-s-10: color-mix(in srgb, var(--fg-200), transparent 90%);
+}

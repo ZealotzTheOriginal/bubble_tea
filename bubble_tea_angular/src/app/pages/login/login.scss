@@ -1,0 +1,301 @@
+.session-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: url('/21-bumble.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  position: relative;
+  padding: 2rem;
+  color: var(--fg-100);
+}
+
+.session-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(24, 14, 30, 0.8) 0%, rgba(43, 25, 45, 0.7) 100%);
+  backdrop-filter: blur(5px);
+  z-index: 1;
+}
+
+.session-card {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 440px;
+  background: rgba(33, 19, 36, 0.6);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(166, 251, 255, 0.15);
+  border-radius: 24px;
+  padding: 3rem 2.5rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.brand {
+  text-align: center;
+  margin-bottom: 2rem;
+
+  .brand-icon {
+    font-size: 3.5rem;
+    color: var(--acc-100);
+    margin-bottom: 0.5rem;
+  }
+
+  .brand-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0 0 0.5rem 0;
+    color: var(--fg-100);
+    letter-spacing: 1px;
+  }
+
+  .brand-subtitle {
+    color: var(--fg-200);
+    font-size: 1rem;
+    margin: 0;
+  }
+}
+
+.form-tabs {
+  display: flex;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  padding: 0.3rem;
+  margin-bottom: 2.5rem;
+
+  .tab-btn {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: var(--fg-200);
+    padding: 0.75rem;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &.active {
+      background: var(--bg-400);
+      color: var(--acc-100);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+  }
+}
+
+.field-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.field-group {
+  display: flex;
+  flex-direction: column;
+
+  label {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--fg-200);
+    margin-bottom: 0.5rem;
+    margin-left: 0.5rem;
+  }
+
+  .input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    .field-icon {
+      position: absolute;
+      left: 1rem;
+      color: var(--fg-200);
+      font-size: 1.2rem;
+      transition: color 0.3s ease;
+    }
+
+    input {
+      width: 100%;
+      background: rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 0.85rem 1rem 0.85rem 3rem;
+      color: var(--fg-100);
+      font-size: 1rem;
+      font-family: inherit;
+      transition: all 0.3s ease;
+
+      &::placeholder {
+        color: rgba(227, 224, 251, 0.4);
+      }
+
+      &:focus {
+        outline: none;
+        border-color: var(--acc-100);
+        background: rgba(0, 0, 0, 0.3);
+        box-shadow: 0 0 0 4px rgba(48, 247, 177, 0.1);
+
+        & + .field-icon {
+          color: var(--acc-100);
+        }
+      }
+
+      &.invalid {
+        border-color: #ff5252;
+        background: rgba(255, 82, 82, 0.05);
+
+        &:focus {
+          box-shadow: 0 0 0 4px rgba(255, 82, 82, 0.1);
+        }
+
+        & + .field-icon {
+          color: #ff5252;
+        }
+      }
+    }
+  }
+
+  /* Adapted field error with fixed height to prevent layout jump */
+  .field-error {
+    color: #ff5252;
+    font-size: 0.75rem;
+    margin-top: 0.25rem;
+    margin-left: 0.5rem;
+    height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    display: block;
+
+    &.visible {
+      height: 16px;
+      opacity: 1;
+      margin-top: 0.4rem;
+    }
+  }
+}
+
+.submit-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, var(--acc-100) 0%, var(--acc-200) 100%);
+  color: var(--bg-100);
+  border: none;
+  padding: 1rem;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(48, 247, 177, 0.3);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+  }
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    background: var(--bg-400);
+    color: var(--fg-200);
+  }
+
+  .material-icons {
+    font-size: 1.25rem;
+  }
+}
+
+.toggle-hint {
+  text-align: center;
+  margin-top: 2rem;
+  color: var(--fg-200);
+  font-size: 0.95rem;
+
+  .link-btn {
+    background: transparent;
+    border: none;
+    color: var(--acc-100);
+    font-weight: 600;
+    font-family: inherit;
+    font-size: inherit;
+    cursor: pointer;
+    padding: 0 0.25rem;
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: var(--acc-200);
+      text-decoration: underline;
+    }
+  }
+}
+
+/* Toast Notification Styles */
+.toast {
+  position: fixed;
+  top: 2rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(-150%);
+  background: #ff5252;
+  color: #fff;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  z-index: 1000;
+  box-shadow: 0 10px 25px rgba(255, 82, 82, 0.4);
+  opacity: 0;
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+  &.show {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+  }
+
+  .toast-message {
+    font-weight: 500;
+    font-size: 0.95rem;
+  }
+
+  .close-toast {
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.8);
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    margin-left: 1rem;
+    transition: color 0.2s;
+
+    &:hover {
+      color: #fff;
+    }
+  }
+}
+
+/* Spinner Animation */
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: currentColor;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
